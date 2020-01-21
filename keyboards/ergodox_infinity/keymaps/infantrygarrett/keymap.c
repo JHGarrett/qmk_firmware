@@ -4,16 +4,13 @@
 
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
-  WORKMAN,
-  DVORAK,
-  COLEMAK,
   LOWER,
   RAISE,
-  GAME,
   MOUSE,
+  NUM,
   EPRM,
   VRSN,
-    ARROW,
+  ARROW,
   COPY_ALL,
   RGB_SLD,
   SEL_CPY,
@@ -25,6 +22,11 @@ enum custom_keycodes {
   DBL_AND,
   ALTF4,
   ALTTAB
+};
+
+void tap(uint16_t keycode){
+    register_code(keycode);
+    unregister_code(keycode);
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -55,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,  KC_T, KC_LBRACKET,
   KC_BSPC,   KC_A,    KC_S,    KC_D,    KC_F,  KC_G,
   KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,  KC_B, KC_LEFT,
-  TT(_NUM), KC_LALT, KC_LGUI, KC_LCTL, LOWER,
+  KC_LCTRL, KC_LALT, KC_LGUI, KC_LCTL, LOWER,
 
                                                   KC_MPLY,  KC_MNXT,
                                                             KC_LALT,
@@ -118,50 +120,50 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //   KC_LGUI, RAISE,   KC_SPACE
 // ),
 
-// /* Keymap 0: Basic Colemak layer
-//  *
-//  * ,---------------------------------------------.           ,--------------------------------------------.
-//  * |   `    |  1  |  2  |  3  |  4  |  5  | Esc  |           | Esc  |  6  |  7  |  8  |  9  |  0  |   Del  |
-//  * |--------+-----+-----+-----+-----+------------|           |------+-----+-----+-----+-----+-----+--------|
-//  * |  Tab   |  Q  |  W  |  F  |  P  |  G  |  [{  |           |  ]}  |  J  |  L  |  U  |  Y  |  ;  |  BSPC  |
-//  * |--------+-----+-----+-----+-----+-----|      |           |      |-----+-----+-----+-----+-----+--------|
-//  * |  ESC   |  A  |  R  |  S  |  T  |  D  |------|           |------|  H  |  N  |  E  |  I  |  O  |    '   |
-//  * |--------+-----+-----+-----+-----+-----|      |           |      |-----+-----+-----+-----+-----+--------|
-//  * | LShift |  Z  |  X  |  C  |  V  |  B  |      |           |      |  K  |  M  |  ,  |  .  |  /  | Enter  |
-//  * `--------+-----+-----+-----+-----+------------'           `------------+-----+-----+-----+-----+--------'
-//  *   | Num  |Ctrl | Alt |LGUI |Lower|                                     |Raise|Left |Down | Up  |Right |
-//  *   `------------------------------'                                     `------------------------------'
-//  *                                   ,------------.          ,------------.
-//  *                                   |Play |      |          |      |Play |
-//  *                             ,-----|-----|------|          |------+-----+-----.
-//  *                             |     |     | Alt  |          | Alt  |     |     |
-//  *                             |Space|LOWER|------|          |------|RAISE|Space|
-//  *                             |     |     | LGUI |          | LGUI |     |     |
-//  *                             `------------------'          `------------------'
-//  */
-// [_COLEMAK] = LAYOUT_ergodox(
-//   // left hand
-//   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5, KC_ESC,
-//   KC_TAB,   KC_Q,    KC_W,    KC_F,    KC_P,    KC_G, KC_LBRACKET,
-//   KC_ESC,   KC_A,    KC_R,    KC_S,    KC_T,    KC_D,
-//   KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, _______,
-//   TT(_NUM), KC_LCTL, KC_LALT, KC_LGUI, LOWER,
+/* Keymap 0: Basic Colemak layer
+ *
+ * ,---------------------------------------------.           ,--------------------------------------------.
+ * |   `    |  1  |  2  |  3  |  4  |  5  | Esc  |           | Esc  |  6  |  7  |  8  |  9  |  0  |   Del  |
+ * |--------+-----+-----+-----+-----+------------|           |------+-----+-----+-----+-----+-----+--------|
+ * |  Tab   |  Q  |  W  |  F  |  P  |  G  |  [{  |           |  ]}  |  J  |  L  |  U  |  Y  |  ;  |  BSPC  |
+ * |--------+-----+-----+-----+-----+-----|      |           |      |-----+-----+-----+-----+-----+--------|
+ * |  ESC   |  A  |  R  |  S  |  T  |  D  |------|           |------|  H  |  N  |  E  |  I  |  O  |    '   |
+ * |--------+-----+-----+-----+-----+-----|      |           |      |-----+-----+-----+-----+-----+--------|
+ * | LShift |  Z  |  X  |  C  |  V  |  B  |      |           |      |  K  |  M  |  ,  |  .  |  /  | Enter  |
+ * `--------+-----+-----+-----+-----+------------'           `------------+-----+-----+-----+-----+--------'
+ *   | Num  |Ctrl | Alt |LGUI |Lower|                                     |Raise|Left |Down | Up  |Right |
+ *   `------------------------------'                                     `------------------------------'
+ *                                   ,------------.          ,------------.
+ *                                   |Play |      |          |      |Play |
+ *                             ,-----|-----|------|          |------+-----+-----.
+ *                             |     |     | Alt  |          | Alt  |     |     |
+ *                             |Space|LOWER|------|          |------|RAISE|Space|
+ *                             |     |     | LGUI |          | LGUI |     |     |
+ *                             `------------------'          `------------------'
+ */
+[_COLEMAK] = LAYOUT_ergodox(
+  // left hand
+  KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5, KC_ESC,
+  KC_TAB,   KC_Q,    KC_W,    KC_F,    KC_P,    KC_G, KC_LBRACKET,
+  KC_ESC,   KC_A,    KC_R,    KC_S,    KC_T,    KC_D,
+  KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, _______,
+  TT(_QWERTY), KC_LCTL, KC_LALT, KC_LGUI, LOWER,
 
-//                                                   KC_MPLY,  _______,
-//                                                             KC_LALT,
-//                                       KC_SPACE,   LOWER,    KC_LGUI,
+                                                  _QWERTY,  QWERTY,
+                                                            KC_LALT,
+                                      KC_SPACE,   LOWER,    KC_LGUI,
 
-//   // right hand
-//   KC_ESC,      KC_6, KC_7,  KC_8,    KC_9,    KC_0,                KC_DEL,
-//   KC_RBRACKET, KC_J, KC_L,  KC_U,    KC_Y,    KC_SCOLON,           KC_BSPACE,
-//                KC_H, KC_N,  KC_E,    KC_I,    KC_O,                KC_QUOTE,
-//   _______,     KC_K, KC_M,  KC_COMM, KC_DOT,  LT(_MOUSE, KC_SLSH), RSFT_T(KC_ENT),
-//                      RAISE, KC_LEFT, KC_DOWN, KC_UP,               KC_RIGHT,
+  // right hand
+  KC_ESC,      KC_6, KC_7,  KC_8,    KC_9,    KC_0,                KC_DEL,
+  KC_RBRACKET, KC_J, KC_L,  KC_U,    KC_Y,    KC_SCOLON,           KC_BSPACE,
+               KC_H, KC_N,  KC_E,    KC_I,    KC_O,                KC_QUOTE,
+  _______,     KC_K, KC_M,  KC_COMM, KC_DOT,  LT(_MOUSE, KC_SLSH), RSFT_T(KC_ENT),
+                     RAISE, KC_LEFT, KC_DOWN, KC_UP,               KC_RIGHT,
 
-//   _______, KC_MPLY,
-//   KC_LALT,
-//   KC_LGUI, RAISE,   KC_SPACE
-// ),
+  _______, KC_MPLY,
+  KC_LALT,
+  KC_LGUI, RAISE,   KC_SPACE
+),
 
 
 /* Lower
@@ -189,9 +191,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // left hand
   KC_DEL,    KC_F1,   KC_F2,   KC_F3,   KC_F4,    KC_F5,   KC_F11,
   ALTTAB, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,   KC_PERC, KC_F6,
-  KC_BSPC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,    KC_F5,
-  ALTF4, KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,  KC_F12,
-  _______, _______, _______, _______, _______,
+  KC_BSPC,  KC_1,   KC_2,   KC_3,   KC_4,    KC_5,
+  ALTF4, KC_6,   KC_7,   KC_8,   KC_9,   KC_0,  KC_F12,
+  QWERTY, NUM, _______, _______, _______,
 
                                                   KC_MPLY,  KC_MPRV,
                                                             KC_LALT,
@@ -278,11 +280,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_ADJUST] = LAYOUT_ergodox(
   // left hand
-  VRSN,    QWERTY, _______, _______, MOUSE, _NUM, _______,
+  VRSN,    QWERTY, _______, _______, MOUSE, NUM, _______,
   _______, RESET,   DEBUG,   BL_TOGG, BL_STEP, _______, _______,
   KC_CAPS, _______, _______, _______, _______, AG_NORM,
   _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, _______,
+  QWERTY, _______, _______, _______, _______,
 
                                                _______, _______,
                                                         _______,
@@ -328,7 +330,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, KC_BTN2, KC_MS_U, KC_BTN1, KC_WH_D, _______,
   _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_U,
   _______, _______, KC_WH_L, KC_BTN3, KC_WH_R, _______, KC_WBAK,
-  _______, _______, _______, _______, _______,
+  QWERTY, _______, _______, _______, _______,
 
                                        _______, _______,
                                                 KC_WH_D,
@@ -374,7 +376,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, KC_NO,   KC_HOME, KC_UP,   KC_END,  KC_PGUP, KC_NO,
   _______, KC_NO,   KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,
   _______, KC_PSLS, KC_PAST, KC_PMNS, KC_PPLS, KC_PENT, KC_NO,
-  _QWERTY, TT(_QWERTY), _______, _______, KC_NO,
+  QWERTY, _______, QWERTY, _______, KC_NO,
 
                                                _______, _______,
                                                         _______,
@@ -394,29 +396,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
-  // MACRODOWN only works in this function
-  switch(id) {
-    case 0:
-      if (record->event.pressed) {
-        SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-      }
-      break;
-    case 1:
-      if (record->event.pressed) { // For resetting EEPROM
-        eeconfig_init();
-      }
-      break;
-  }
-  return MACRO_NONE;
-};
-
-void matrix_init_user() {
-  backlight_enable();
-  backlight_level(BACKLIGHT_LEVELS);
-}
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case QWERTY:
@@ -424,21 +403,32 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         set_single_persistent_default_layer(_QWERTY);
       }
       return false;
-    case WORKMAN:
+      case NUM:
       if (record->event.pressed) {
-        set_single_persistent_default_layer(_WORKMAN);
+        set_single_persistent_default_layer(_NUM);
       }
       return false;
-    case DVORAK:
+      case MOUSE:
       if (record->event.pressed) {
-        set_single_persistent_default_layer(_DVORAK);
+        set_single_persistent_default_layer(_MOUSE);
       }
       return false;
-    case COLEMAK:
-      if (record->event.pressed) {
-        set_single_persistent_default_layer(_COLEMAK);
-      }
-      return false;
+
+    // case WORKMAN:
+    //   if (record->event.pressed) {
+    //     set_single_persistent_default_layer(_WORKMAN);
+    //   }
+    //   return false;
+    // case DVORAK:
+    //   if (record->event.pressed) {
+    //     set_single_persistent_default_layer(_DVORAK);
+    //   }
+    //   return false;
+    // case COLEMAK:
+    //   if (record->event.pressed) {
+    //     set_single_persistent_default_layer(_COLEMAK);
+    //   }
+    //   return false;
     case LOWER:
       if (record->event.pressed) {
         layer_on(_LOWER);
@@ -488,6 +478,81 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         #endif
       }
       return false;
+                 case SEL_CPY:
+            // Select word under cursor and copy. Double mouse click then ctrl+c
+            if (record->event.pressed) {
+                tap_code16(KC_BTN1);
+                tap_code16(KC_BTN1);
+                tap_code16(C(KC_C));
+            }
+            return false;
+
+      case ALTF4:
+            // ALT + F4 TO CLOSE WINDOWS IN LINUX
+            if (record->event.pressed) {
+                register_code(KC_LALT);
+                tap(KC_F4);
+                unregister_code(KC_LALT);
+            }
+            return false;
+
+             case ALTTAB:
+            // ALT + TAB TO SWITCH APPLICATIONS.
+            if (record->event.pressed) {
+                register_code(KC_LALT);
+                tap(KC_TAB);
+                unregister_code(KC_LALT);
+            }
+            return false;
+
+         case COPY_ALL:
+            if (record->event.pressed) {
+                // Selects all and text and copy
+                SEND_STRING(SS_LCTRL("ac"));
+            }
+            return false;
+             case ARROW:
+            if (record->event.pressed){
+                SEND_STRING("=>");
+            }
+            return false;
+
+             case TRIPEQL:
+            if (record->event.pressed){
+                SEND_STRING("===");
+            }
+            return false;
+
+             case NOTEQL:
+            if (record->event.pressed){
+                SEND_STRING("!=");
+            }
+            return false;
+
+            case DBL_AND:
+            if (record->event.pressed){
+                SEND_STRING("&&");
+            }
+            return false;
+
+            case CC_PRN:
+            if (record->event.pressed){
+            SEND_STRING("()"SS_TAP(X_LEFT));
+            }
+            return false;
+
+            case CC_BRC:
+            if (record->event.pressed){
+            SEND_STRING("[]"SS_TAP(X_LEFT));
+            }
+            return false;
+
+            case CC_CBR:
+            if (record->event.pressed){
+            SEND_STRING("{}"SS_TAP(X_LEFT));
+            }
+            return false;
+
   }
   return true;
 }

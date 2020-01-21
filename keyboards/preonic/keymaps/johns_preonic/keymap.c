@@ -1,7 +1,7 @@
 /* Copyright 2015-2017 Jack Humbert
  *
  * Layout created by John Garrett 2019 <https://github.com/JHGarrett>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
@@ -37,7 +37,7 @@ enum preonic_layers {
   _LOWER,
   _RAISE,
   _ADJUST
- 
+
 
 };
 
@@ -63,7 +63,9 @@ enum preonic_keycodes {
   CC_PRN,
   CC_BRC,
   CC_CBR,
-  DBL_AND
+  DBL_AND,
+  ALTF4,
+  ALTTAB
 };
 
 
@@ -191,13 +193,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_LOWER] = LAYOUT_preonic_grid( \
   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  \
-  KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL,  \
-  KC_BSPC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
-  _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,S(KC_NUHS),S(KC_NUBS),KC_LBRC, KC_RBRC, KC_ENT, \
-  KC_CAPS, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY \
+  ALTTAB, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL,  \
+  KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
+  ALTF4, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,S(KC_NUHS),S(KC_NUBS),KC_LBRC, KC_RBRC, KC_ENT, \
+  KC_CAPS, KC_LALT, KC_LGUI, KC_LCTRL, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY \
 ),
 
-/* Raise
+/* Raisee
  * ,-----------------------------------------------------------------------------------.
  * |   `  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -219,7 +221,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 
-/* Adjust (Lower + Raise)   
+/* Adjust (Lower + Raise)
  * ,-----------------------------------------------------------------------------------.
  * |      |QWERTY|COLEMA|DVORAK|MOUSE |NUMPAD| SYMB |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -239,7 +241,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  KC_CALC, KC_MRWD, KC_MFFD, _______, _______, \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  \
 ),
-/* Mouse 
+/* Mouse
  * ,-----------------------------------------------------------------------------------.
  * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -326,9 +328,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           return false;
           break;
 
-          
+
 // custom stuff
-        
+
            case SEL_CPY:
             // Select word under cursor and copy. Double mouse click then ctrl+c
             if (record->event.pressed) {
@@ -336,6 +338,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(KC_BTN1);
                 tap_code16(C(KC_C));
             }
+            return false;
+
+      case ALTF4:
+            // ALT + F4 TO CLOSE WINDOWS IN LINUX
+            if (record->event.pressed) {
+                register_code(KC_LALT);
+                tap(KC_F4);
+                unregister_code(KC_LALT);
+            }
+            return false;
+
+             case ALTTAB:
+            // ALT + TAB TO SWITCH APPLICATIONS.
+            if (record->event.pressed) {
+                register_code(KC_LALT);
+                tap(KC_TAB);
+                unregister_code(KC_LALT);
+            }
+            return false;
+
          case COPY_ALL:
             if (record->event.pressed) {
                 // Selects all and text and copy
@@ -345,43 +367,43 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
              case ARROW:
             if (record->event.pressed){
                 SEND_STRING("=>");
-            } 
+            }
             return false;
 
              case TRIPEQL:
             if (record->event.pressed){
                 SEND_STRING("===");
-            } 
+            }
             return false;
 
              case NOTEQL:
             if (record->event.pressed){
                 SEND_STRING("!=");
-            } 
+            }
             return false;
-            
+
             case DBL_AND:
             if (record->event.pressed){
                 SEND_STRING("&&");
-            } 
+            }
             return false;
 
             case CC_PRN:
             if (record->event.pressed){
             SEND_STRING("()"SS_TAP(X_LEFT));
-            } 
+            }
             return false;
-            
+
             case CC_BRC:
             if (record->event.pressed){
             SEND_STRING("[]"SS_TAP(X_LEFT));
-            } 
+            }
             return false;
-            
+
             case CC_CBR:
             if (record->event.pressed){
             SEND_STRING("{}"SS_TAP(X_LEFT));
-            } 
+            }
             return false;
 
       }

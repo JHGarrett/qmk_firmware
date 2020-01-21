@@ -23,6 +23,13 @@ uint16_t rgb_time_out_seconds;          // Idle LED timeout value, in seconds no
 uint16_t rgb_time_out_saved_seconds;
 led_flags_t rgb_time_out_saved_flag;    // Store LED flag before timeout so it can be restored when LED is turned on again.
 
+
+void tap(uint16_t keycode){
+    register_code(keycode);
+    unregister_code(keycode);
+};
+
+
 enum tapdance_keycodes {
     TD_GUI_ML = 0,     // Tap dance key to switch to mouse layer _ML
     TD_LCTRL_TERM,
@@ -46,13 +53,14 @@ enum ctrl_keycodes {
     ARROW,
     TERMINAL,
     TRIPEQL,
-  NOTEQL,
-  CC_PRN,
-  CC_BRC,
-  CC_CBR,
-  DBL_AND,
-  QWERTY,
-  COLEMAK
+    NOTEQL,
+    CC_PRN,
+    CC_BRC,
+    CC_CBR,
+    ALTF4,
+    DBL_AND,
+    QWERTY,
+    COLEMAK
 };
 
 enum layout_names {
@@ -105,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, RGB_SPD, RGB_VAI,RGB_MOD ,  RGB_HUI, RGB_SAI, _______, U_T_AUTO, U_T_AGCR, _______, _______, CC_BRC, CC_CBR, CC_PRN,      KC_MPRV, KC_MNXT, KC_VOLD,
         KC_CAPS, RGB_SPI,RGB_VAD, RGB_RMOD,  RGB_HUD, RGB_SAD, _______, _______,  _______,  _______, _______, _______, _______,
         _______, RGB_TOG, _______, COPY_ALL, ARROW, MD_BOOT, TG_NKRO, _______,  _______,  _______, _______, _______,                              KC_BRIU,
-        ARROW, LCTL(KC_DEL), LCTL(KC_BSPC),                    _______,                              _______, _______, _______, _______,            _______, KC_BRID, _______
+        ARROW, LCTL(KC_DEL), LCTL(KC_BSPC),                    _______,                              ALTF4, _______, _______, _______,            _______, KC_BRID, _______
     ),
     [_ML] = LAYOUT(
         _______, KC_ACL0,       KC_ACL1, KC_ACL2, _______, _______, _______, _______, _______, _______, _______, _______, _______,            _______, _______, _______,
@@ -299,6 +307,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             SEND_STRING("()"SS_TAP(X_LEFT));
             } 
             return false;
+
+            case ALTF4:
+            // ALT + F4 TO CLOSE WINDOWS IN LINUX
+            if (record->event.pressed) {
+                register_code(KC_LALT);
+                tap(KC_F4);
+                unregister_code(KC_LALT);
+            }
+            return false;
+
             
             case CC_BRC:
             if (record->event.pressed){
