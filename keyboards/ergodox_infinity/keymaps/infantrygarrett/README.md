@@ -1,4 +1,4 @@
-# DudeOfAwesome's ErgoDox Infinity Layout
+# infantrygarrett's ErgoDox Infinity Layout
 
 A basic ErgoDox layout with Planck-like tri-layer support.
 
@@ -22,9 +22,9 @@ A basic ErgoDox layout with Planck-like tri-layer support.
 1. Put your board in DFU mode with either the button on the bottom, or with a software key in your current firmware
 1. Flash left half:
     ```bash
-    $ make ergodox_infinity:dudeofawesome:dfu-util
+    $ make ergodox_infinity:infantrygarrett:dfu-util
     ```
 1. Flash right half:
     ```bash
-    $ make ergodox_infinity:dudeofawesome:dfu-util MASTER=right
+    $ make ergodox_infinity:infantrygarrett:dfu-util MASTER=right
     ```

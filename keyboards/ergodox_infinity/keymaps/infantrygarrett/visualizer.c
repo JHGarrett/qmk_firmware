@@ -29,7 +29,7 @@ static void get_visualizer_layer_and_color(visualizer_state_t* state) {
   switch(biton32(default_layer_state)) {
     case _QWERTY:
       state->layer_text = "QWERTY";
-      state->target_lcd_color = LCD_COLOR(0, 255, 128);
+      state->target_lcd_color = LCD_COLOR(0, 255, 255);
       break;
     case _WORKMAN:
       state->layer_text = "Workman";
